@@ -81,4 +81,6 @@ mvn spring-boot:run
 - **Contributions** are welcome! Please fork the repository and create a pull request with your changes.
 
 ## E-R Diagram
-https://github.com/ramrajpatil/Cinema-Booking-System/blob/main/db_resources/e_r_diagram.png
+
+<img src="https://github.com/ramrajpatil/Cinema-Booking-System/blob/main/db_resources/e_r_diagram.png" alt="E-R Diagram" width="500">
+
