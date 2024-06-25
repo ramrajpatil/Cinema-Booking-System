@@ -1,0 +1,63 @@
+package demo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Program1 {
+
+	public static void main1(String[] args) {
+		// Create a List and filter all even numbers from the list.
+		
+		List<Integer> list2= new ArrayList<>();
+		list2.add(10);
+		list2.add(50);
+		list2.add(60);
+		list2.add(30);
+		list2.add(20);
+		list2.add(70);
+		
+		// Returns a fixed-size list backed by the specified array.
+		// Changes made to the array will be visible in the returned list,
+		// and changes made to the list will be visible in the array. 
+		List<Integer> list1= Arrays.asList(2,4,50,21,22,67);
+		
+		
+		// or
+		// List.of(); // This method will also create the list but it'll be an unmodifiable list.
+		
+		// without stream
+		List<Integer> listEven = new ArrayList<>();
+		
+		for (Integer i : list1) {
+			if(i%2 == 0)
+				listEven.add(i);
+		}
+		System.out.println(list1);
+		System.out.println(listEven);
+		
+		// With stream
+//		Stream<Integer> stream = list1.stream();// we will get the stream containing integers.
+//		List<Integer> newList = stream.filter(i -> i%2 == 0) // we to pass boolean valued function. i.e. Predicate.
+//		.collect(Collectors.toList());
+		// in one line
+		
+		List<Integer> newList = list1.stream().filter(i -> i%2 == 0).collect(Collectors.toList());
+		System.out.println(list1);
+		System.out.println(newList);
+		
+	}
+
+	public static void main(String[] args) {
+		// filter number from a list which are greater than 10.
+		List<Integer> list1= Arrays.asList(2,4,50,21,22,67);
+
+		List<Integer> newList = list1.stream().filter(i -> i > 10).collect(Collectors.toList());
+		
+		
+		System.out.println(list1);
+		System.out.println(newList);
+	}
+}

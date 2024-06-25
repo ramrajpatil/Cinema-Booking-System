@@ -1,0 +1,16 @@
+package com.cbs.repos;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cbs.pojos.Movie;
+import com.cbs.pojos.Theater;
+
+public interface TheaterRepository extends JpaRepository<Theater, Integer> {
+
+	
+	List<Theater> findAllTheatersByCityPincode(int pincode);
+	
+	List<Movie> findMoviesByTheaterId(int theaterId);
+}

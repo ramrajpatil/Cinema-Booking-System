@@ -1,0 +1,120 @@
+
+
+.header {
+  height: 80;
+  display: flex;
+  background-color: fff;
+
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #b7bdde;
+}
+
+.myntra_home {
+  height: 45px;
+}
+
+.logo_container {
+  margin-left: 4%;
+}
+
+.nav_bar {
+  display: flex;
+  min-width: 500px;
+  align-items: start;
+  justify-content: space-evenly;
+}
+
+.nav_bar form{
+  margin-top: 25px;
+}
+
+.nav_bar a {
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  color: #282c3f;
+  font-weight: 700;
+  padding: 28px 0;
+  box-sizing: content-box;
+  border-bottom: 4px solid white;
+}
+
+.action_bar {
+  display: flex;
+  min-width: 200px;
+  justify-content: space-evenly;
+}
+
+.action_bar a {
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  color: #282c3f;
+  box-sizing: content-box;
+  border-bottom: 4px solid white;
+}
+.action_container {
+  display: flex;
+  margin-left: 5px;
+  margin-right: 5px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav_bar a:hover {
+  border-bottom: 4px solid rgb(255, 70, 70);
+}
+
+/* Main home page  */
+.homepage-outside-container {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 2px solid black;
+}
+
+.homepage-movies-container{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin: 15px 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  height: 630px;
+  border-radius: 30px;
+  background-color:  rgb(216, 241, 245);
+}
+
+.homepage-movies-container img{
+  border: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 250px;
+
+}
+.homepage-movies-containe4-btn{
+  margin-top: 5px;
+  border: none;
+  background-color:  rgb(216, 241, 245);
+}
+
+.homepage-movies-container h4{
+  font-size: 25px;
+  color: red
+}
+
+.footer_container {
+  padding: 5px 0px 5px 0px;
+  background-color: #2d2d2d;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.copyright {
+  color: #94969f;
+  text-align: center;
+  padding: 15px;
+}

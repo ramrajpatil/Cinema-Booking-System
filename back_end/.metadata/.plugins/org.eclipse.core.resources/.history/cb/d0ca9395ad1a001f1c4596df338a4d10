@@ -1,0 +1,83 @@
+package com.user.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.user.dto.LoginDTO;
+import com.user.pojos.User;
+import com.user.security.JWTService;
+import com.user.services.UserServiceImpl;
+
+@RestController // Indicates this class is a controller providing RESTful endpoints
+@CrossOrigin("*") // Allows requests from any origin
+@RequestMapping("/auth") // Base URL mapping for this controller
+public class UserRestController {
+
+    @Autowired // Injects the UserServiceImpl bean for user-related operations
+    private UserServiceImpl userService;
+
+    @Autowired // Injects the AuthenticationManager bean for user authentication
+    private AuthenticationManager authManeger;
+
+    @Autowired // Injects the JWTService bean for JWT token generation and validation
+    private JWTService jwtService;
+
+    // Default constructor
+    public UserRestController() {
+        System.out.println("In user rest controller.");
+    }
+
+    // Endpoint for a welcome message
+    @GetMapping("/welcome")
+    public String welcome() {
+        return "Welcome to Spring Security !!!";
+    }
+
+    // Endpoint for adding a user
+    @PostMapping("/addUser")
+    public String addUser(@RequestBody User transientUser) {
+        // Calls the UserServiceImpl to add a new user
+        return userService.addUser(transientUser);
+    }
+
+    // Endpoint for user login
+    @PostMapping("/login")
+    public String addUser(@RequestBody LoginDTO loginDTO) {
+        // Authenticates user credentials using Spring Security's AuthenticationManager
+        Authentication authenticate = authManeger
+                .authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+
+        // Generates JWT token if authentication successful, else throws UsernameNotFoundException
+        if (authenticate.isAuthenticated()) {
+            return jwtService.generateToken(loginDTO.getUsername());
+        } else {
+            throw new UsernameNotFoundException("Invalid user request");
+        }
+    }
+
+    // Endpoint for retrieving all users
+    @GetMapping("/getUsers")
+    public List<User> getAllUsers() {
+        // Calls the UserServiceImpl to fetch all users
+        return userService.fetchAllUsers();
+    }
+
+    // Endpoint for retrieving a user by ID
+    @GetMapping("/getUsers/{id}")
+    public User getUserDetails(@PathVariable int id) {
+        // Calls the UserServiceImpl to fetch a user by ID
+        return userService.getUserById(id);
+    }
+}

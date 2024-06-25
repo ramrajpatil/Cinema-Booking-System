@@ -1,0 +1,46 @@
+package demo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class Program2 {
+
+	public static void main(String[] args) {
+		
+		
+		// Stream API - collection processing
+		// collection / group of objects(Array too)
+		
+		// 1: Empty stream
+		Stream<Object> emptyStream = Stream.empty();
+		
+		// 2: Stream from array, collection, object of strings.
+		String[] names = {"ramraj", "sushant", "sandesh", "vishal", "kimaya", "kunal"};
+		
+		Stream<String> stream1 = Stream.of(names);
+		stream1.forEach(e -> System.out.println(e));
+		
+		// 3: Builder pattern
+		Stream<Object> stream2 = Stream.builder().build();
+		
+		// 4: Arrays.stream() method
+		IntStream stream3 = Arrays.stream(new int[] {2,4,55,98,23,54});// Anonymous array.
+		
+		stream3.forEach(e -> System.out.println(e));
+		
+		// 5: List, Set, Collection
+		List<Integer> list = new ArrayList<>();
+		list.add(30);
+		list.add(60);
+		list.add(80);
+		list.add(10);
+		list.add(90);
+		list.add(20);
+		list.add(40);
+		
+	}
+
+}

@@ -1,0 +1,176 @@
+package demo;
+
+public class Program1 {
+
+	public static void main1(String[] args) {
+//		int[][] arr = new int[][] {{1,3,5},{3,5,8},{2,4,7}};
+//
+//		for (int i = 0; i < arr.length; i++) {
+//			for (int j = i+1; j < arr.length; j++) {
+//				if(arr[i][j] == arr[i][j])
+//			}
+//		}
+
+		int[] arr = new int[] { 1, 4, 6, 7, 3, 4, 5, 6, 8, 4, 5, 7, 2, 4 };
+		int numCount1=0;
+		// Duplicate elements from the given array.
+		System.out.println("Duplicate elements:  ");
+		for (int i = 0; i < arr.length; i++) {
+			if(arr[i] != 0) {
+				int count = 0;
+				
+			for (int j = i + 1; j < arr.length; j++) {
+
+				if (arr[i] == arr[j]) {
+					count++;
+					arr[j]=0;
+				}
+			}
+			// for duplicate
+			if (count > 0) {
+
+				numCount1++;
+				System.out.print(arr[i] + ",   ");
+			}
+			}
+		}
+		
+		System.out.println("There are "+numCount1+" duplicate elements in the given array.");
+		
+		int[] arr2 = new int[] { 1, 4, 6, 7, 3, 4, 5, 6, 8, 4, 5, 7, 2, 4 };
+
+		int numCount2=0;
+		// Unique elements from the given array.
+		System.out.println();
+		System.out.println("Unique elements:  ");
+		for (int i = 0; i < arr2.length; i++) {
+			int count = 0;
+			if (arr2[i] != 0) {
+
+				for (int j = i + 1; j < arr2.length; j++) {
+
+					if (arr2[i] == arr2[j]) {
+						count++;
+						arr2[j] = 0;
+					}
+				}
+				// For unique elements
+				if (count == 0) {
+					
+					numCount2++;
+					System.out.print(arr2[i] + ",   ");
+				}
+			}
+		}
+		System.out.println("There are "+numCount2+" Unique elements in the given array.");
+
+	}
+	
+//	program to reverse rotate an array.
+	public static void main2(String[] args) {
+		
+		int[] arr = new int[] { 1, 4, 6, 7, 3, 5, 8, 2 };
+
+		int j=0;
+		int k = arr.length-1;
+		
+		while( j <= k) {
+			
+				
+			int temp = arr[j];
+			arr[j] = arr[k];
+			arr[k] = temp;
+			j++;
+			k--;
+		}
+		
+		for (int i : arr) {
+			System.out.print(i+", ");
+		}
+	}
+	
+	// WAP to find transpose of a matrix
+	public static void main3(String[] args) {
+		int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};
+		
+		int[][] newArr= new int [3][3];
+		
+		
+		System.out.println("Original array:  ");
+		for (int[] a : arr) {
+			for (int i : a) {
+				System.out.print(i+"  ");
+			}
+			System.out.println();
+		}
+		for (int i = 0; i < arr.length; i++) {
+			
+			for (int j = 0; j < newArr.length; j++) {
+				
+				newArr[j][i] = arr[i][j];
+			}
+			
+		}
+		
+		System.out.println("Transpose array:  ");
+		for (int[] a : newArr) {
+			for (int i : a) {
+				System.out.print(i+"  ");
+			}
+			System.out.println();
+		}
+	}
+	
+	// WAP to rotate an array 90 deg.
+	public static void main(String[] args) {
+
+		int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};
+		
+		int[][] newArr= new int [3][3];
+		
+		
+		System.out.println("Original array:  ");
+		for (int[] a : arr) {
+			for (int i : a) {
+				System.out.print(i+"  ");
+			}
+			System.out.println();
+		}
+		for (int i = 0; i < arr.length; i++) {
+			
+			for (int j = 0; j < newArr.length; j++) {
+				
+				newArr[j][i] = arr[i][j];
+			}
+			
+		}
+		
+		for (int i = 0; i < newArr.length; i++) {
+			for (int j = 0; j < newArr.length; j++) {
+				
+				int l=0;
+				int k = newArr.length-1;
+				
+				while( l <= k) {
+					
+						
+					int temp = newArr[i][k];
+					newArr[i][k] = newArr[i][l];
+					newArr[i][l] = temp;
+					l++;
+					k--;
+				}
+			}
+		}
+		
+		System.out.println("Transpose array:  ");
+		for (int[] a : newArr) {
+			for (int i : a) {
+				System.out.print(i+"  ");
+			}
+			System.out.println();
+		}
+	
+	}
+
+}

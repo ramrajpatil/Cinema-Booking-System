@@ -1,0 +1,77 @@
+package com.cbs.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cbs.custom.exception.TheaterHandlingException;
+import com.cbs.pojos.Movie;
+import com.cbs.pojos.Theater;
+import com.cbs.repos.CityRepository;
+import com.cbs.repos.TheaterRepository;
+
+
+@Service
+@Transactional
+public class TheaterServiceImpl implements ITheaterService {
+
+	@Autowired
+	private TheaterRepository thRepo;
+	
+	@Autowired
+	private CityRepository cityRepo;
+	
+	@Autowired
+	private ICityService cityService;
+	
+	@Override
+	public List<Theater> fetchAllTheaters() {
+		return thRepo.findAll();
+	}
+
+	@Override
+	public Theater getTheaterById(int thId) {
+		return thRepo.findById(thId).orElseThrow(() -> 
+									new TheaterHandlingException("Invalid theater Id!!"));
+	}
+
+	@Override
+	public Theater addNewTheater(Theater transientTheater, int cityId) {
+		transientTheater.setCity(cityService.getCityById(cityId));
+		return thRepo.save(transientTheater);
+	}
+
+	@Override
+	public String deleteTheaterById(int thId) {
+		thRepo.deleteById(thId);
+		return "Theater details deleted successfully for theaterId= "+thId;
+	}
+
+	@Override
+	public Theater updateTheaterDetails(Theater detachedTheater, Theater existingTheater) {
+		if(thRepo.existsById(existingTheater.getId())) {
+			existingTheater.setTheaterName(detachedTheater.getTheaterName());
+			existingTheater.setAddress(detachedTheater.getAddress());
+			existingTheater.setCapacity(detachedTheater.getCapacity());
+			
+			return thRepo.save(existingTheater);
+		}
+		throw new TheaterHandlingException("Invalid theater ID: updating failed !!!!! "+ detachedTheater.getId());
+	}
+
+	@Override
+	public List<Theater> fetchTheatersByCityPincode(int pincode) {
+		
+		return thRepo.findAllTheatersByCityPincode(pincode);
+	}
+
+	@Override
+	public List<Movie> fetchMoviesByTheaterId(int thId) {
+		System.out.println(thId);
+		return thRepo.findAllMoviesByTheaterId(thId);
+	}
+	
+	
+}

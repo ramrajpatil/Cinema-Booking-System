@@ -1,0 +1,9 @@
+package com.cbs.repos;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cbs.pojos.Theater;
+
+public interface TheaterRepository extends JpaRepository<Theater, Integer> {
+
+}

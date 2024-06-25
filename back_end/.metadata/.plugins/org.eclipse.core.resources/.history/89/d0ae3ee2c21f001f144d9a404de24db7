@@ -1,0 +1,52 @@
+package demo;
+
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Enter the amount: ");
+		int n = sc.nextInt();
+		int temp = n;
+		int result = 0;
+
+		if (n % 10 == 0) {
+
+			while (n != 0) {
+
+				if (n >= 2000) {
+					System.out.println("2000 => " + n / 2000);
+				} else if (n >= 500 && n < 2000) {
+					System.out.println("500 => " + n / 500);
+					n = n % 500;
+
+				} else if (n >= 200 && n < 500) {
+					System.out.println("200 => " + n / 200);
+					n = n % 200;
+
+				} else if (n >= 100 && n < 200) {
+					System.out.println("100 => " + n / 100);
+					n = n % 100;
+
+				} else if (n >= 50 && n < 100) {
+					System.out.println("50 => " + n / 50);
+					n = n % 50;
+
+				} else if (n >= 20 && n < 50) {
+					System.out.println("20 => " + n / 20);
+					n = n % 20;
+
+				} else{
+					System.out.println("10 => " + n / 10);
+					n = n % 10;
+
+				}
+
+			}// while bracket.
+		}// first if bracket.
+
+	}
+
+}

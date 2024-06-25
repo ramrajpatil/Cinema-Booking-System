@@ -1,0 +1,88 @@
+package com.user.security;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+
+@Component // Indicates this class is a Spring component
+public class JWTService {
+
+    private static final String SECRET = "shj%#qc%$bt53c&^%n86xtqxfqn"; // Secret key for signing JWT tokens
+
+    // Method to generate a JWT token for the given username
+    public String generateToken(String username) {
+        // Create claims for the token (currently empty)
+        Map<String, Object> claims = new HashMap<>();
+        // Build and sign the JWT token with claims, subject, issuedAt, expiration, and signing key
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 120)) // Token expires in 120 seconds
+                .signWith(getSignKey(), SignatureAlgorithm.HS256) // Signing the token with HMAC SHA-256 algorithm
+                .compact(); // Compact the JWT token into its final string representation
+    }
+
+    // Method to get the signing key for JWT token
+    private Key getSignKey() {
+        // Decode the secret key from Base64
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        // Generate signing key using the secret key
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    // Method to extract all claims from the JWT token
+    private Claims extractAllClaims(String token) {
+        // Set the signing key and parse the JWT token
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody(); // Extracts the body (claims) of the JWT token
+    }
+
+    // Method to extract username from the JWT token
+    public String extractUsername(String token) {
+        // Extract the subject (username) from the claims
+        return extractClaims(token, Claims::getSubject);
+    }
+
+    // Method to extract specific claims from the JWT token using a resolver function
+    private <T> T extractClaims(String token, Function<Claims, T> claimResolver) {
+        // Extract all claims from the token
+        final Claims claims = extractAllClaims(token);
+        // Apply the resolver function to the claims and return the result
+        return claimResolver.apply(claims);
+    }
+
+    // Method to extract expiration date from the JWT token
+    public Date extractExpiration(String token) {
+        // Extract the expiration date from the claims
+        return extractClaims(token, Claims::getExpiration);
+    }
+
+    // Method to check if the JWT token is expired
+    private Boolean isTokenExpired(String token) {
+        // Checks if the token expiration date is before the current date
+        return extractExpiration(token).before(new Date());
+    }
+
+    // Method to validate the JWT token against UserDetails
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        // Extract the username from the token
+        final String username = extractUsername(token);
+        // Validate if username matches UserDetails username and token is not expired
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+}

@@ -1,0 +1,153 @@
+package demo;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class String_2 {
+
+	
+	// Check if the given string is palindrome or not.
+	public static void main1(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String str;
+		System.out.print("Enter String: ");
+		str = sc.next();
+		System.out.println(str);
+		String revStr = "";
+
+		for (int i = str.length() - 1; i >= 0; i--) {
+			revStr += str.charAt(i);
+		}
+		System.out.println(revStr);
+		if (revStr.equals(str))
+			System.out.println("Given string is palindrome..");
+		else
+			System.out.println("Not a palindrome..");
+	}
+
+	// Sort the array of string in descending and ascending order.
+	public static void main2(String[] args) {
+		String[] str = new String[] { "Green", "White", "Black", "Pink", "Orange", "Blue", "Champagne", "Indigo",
+				"Ivory" };
+
+		for (int i = 0; i < str.length; i++) {
+			for (int j = 0; j < str.length; j++) {
+				if (str[i].length() > str[j].length()) {
+					String temp = str[i];
+					str[i] = str[j];
+					str[j] = temp;
+				}
+			}
+		}
+
+		for (String string : str) {
+			System.err.println(string);
+		}
+
+	}
+
+	// Count repeated string from a given parent string
+	public static void main3(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter String: ");
+		String str = sc.next();
+		System.out.print("Enter Search String: ");
+		String str2 = sc.next();
+		int count = 0;
+
+//		for (int i = 0; i < str.length() - 1; i++) {
+//			if(str.substring(i, i+(str2.length()-1)).equals(str2)) {
+//				count++;
+//				
+//			}
+//		}// for specific length.				// String to search
+
+		for (int i = 0; i < str.length() - 1; i++) {// Terminating condition change for generic method.
+			if (str.substring(i, i + 2).equals(str2)) {
+				count++;
+			}
+		}
+		System.out.println(count);
+		System.out.println(str2);
+
+	}
+
+	// Count number if letters which are repeated consecutively 1 time.
+	public static void main4(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter String: ");
+		String str = sc.next();
+		int count = 0;
+
+		for (int i = 0; i < str.length() - 1; i++) {// Terminating condition: As there will be only 2 letter string to
+													// check.
+			if (str.charAt(i) == str.charAt(i + 1)) {
+				count++;
+			}
+		}
+		System.out.println(count);
+
+	}
+
+	
+	// Count words in a list which start with a particular alphabet.
+	public static void main5(String[] args) {
+		List<String> str3 = Arrays.asList("Green", "White", "Black", "Pink", "Orange", "Blue", "Champagne", "Indigo",
+				"Ivory");
+
+		long count2 = str3.stream()// Converted into InStream (Stream)
+				.filter(s -> s.startsWith("G")).count();
+
+		System.out.println(count2);
+
+	}
+
+	// WAP to reverse odd numbered lenth words from a array of strings.
+	public static void main6(String[] args) {
+
+		String[] str = new String[] { "Green"/* 5 */, "White"/* 5 */, "Black"/* 5 */, "Pink"/* 4 */, "Orange"/* 6 */,
+				"Blue"/* 4 */, "Champagne"/* 9 */, "Indigo"/* 6 */, "Ivory"/* 5 */ };
+
+		for (int i = 0; i < str.length; i++) {
+
+			String revStr = "";
+
+			if (str[i].length() % 2 != 0) {
+				// Logic to reverse the odd length string.
+				for (int j = str[i].length() - 1; j >= 0; j--) {
+					revStr += str[i].charAt(j);
+				}
+
+				str[i] = revStr;
+			}
+//			System.out.println(revStr);
+		}
+		
+		for (String s : str) {
+			System.out.println(s);
+		}
+
+	}
+	
+	public static void main(String[] args) {
+		String str = "Create a Date Calendar.";
+		int finalCount=0;
+		for (int i = 0; i < str.length(); i++) {
+			int count=0;
+				for (int j = 0; j < str.length(); j++) {
+					if(str.charAt(i) == str.charAt(j)) {
+						count++;
+					}
+					
+				}
+				if(count >2) {
+					finalCount++;
+				}
+		}
+		
+		System.out.println(finalCount);
+	}
+
+}

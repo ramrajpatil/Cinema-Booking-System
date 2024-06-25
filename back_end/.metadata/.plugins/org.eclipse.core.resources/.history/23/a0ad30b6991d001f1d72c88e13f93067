@@ -1,0 +1,25 @@
+package demo;
+
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Enter the amount: ");
+		int n = sc.nextInt();
+		int temp = n;
+		int ld=0;
+			while(n !=0 )
+			{
+				
+				ld = n%10;
+				
+				n=n/10;
+				
+			}
+		
+	}
+
+}

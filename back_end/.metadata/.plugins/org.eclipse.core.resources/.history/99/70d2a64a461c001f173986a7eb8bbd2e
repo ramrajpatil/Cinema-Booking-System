@@ -1,0 +1,23 @@
+package demo;
+
+import java.util.stream.Stream;
+
+public class Program2 {
+
+	public static void main(String[] args) {
+		
+		
+		// Stream API - collection processing
+		// collection / group of objects(Array too)
+		
+		// 1: Empty stream
+		Stream<Object> emptyStream = Stream.empty();
+		
+		// 2: 
+		String[] names = {"ramraj", "sushant", "sandesh", "vishal", "kimaya", "kunal"};
+		
+		Stream<String> stream1 = Stream.of(names);
+		
+	}
+
+}

@@ -1,0 +1,38 @@
+package demo;
+
+import java.util.Scanner;
+
+public class Program {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Enter the amount: ");
+		int n = sc.nextInt();
+		int temp = n;
+		int result = 0;
+		
+		if(n%10 == 0) {
+			
+		while(n != 0) {
+			
+			if(n>=2000) {
+				System.out.println("2000 => "+n/2000);
+			}
+			else if(n >= 500 && n < 2000 ) {
+				System.out.println("500 => "+n/500);
+				n=n%500;
+				
+			}
+			else if(n >= 200 && n < 500) {
+				System.out.println("200 => "+n/200);
+				n=n%200;
+				
+			}
+			
+		}
+		}
+		
+	}
+
+}

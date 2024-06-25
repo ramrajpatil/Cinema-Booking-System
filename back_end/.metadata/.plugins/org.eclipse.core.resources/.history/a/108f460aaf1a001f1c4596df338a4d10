@@ -1,0 +1,95 @@
+package com.user.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.user.custom.exception.UserHandlingException;
+import com.user.pojos.User;
+import com.user.repos.UserRepository;
+import com.user.security.UserInfoDetails;
+
+@Service // Indicates this class is a Spring service component
+@Transactional // Defines the scope of a single database transaction
+public class UserServiceImpl implements IUserService, UserDetailsService {
+
+	@Autowired // Injects the UserRepository bean for database operations
+	private UserRepository userRepo;
+
+	@Autowired // Injects the PasswordEncoder bean for password encryption
+	private PasswordEncoder passEncoder;
+
+	// Method to add a new user to the database
+	@Override
+	public User addNewUser(User user) {
+		return userRepo.save(user); // Saves the user object to the database
+	}
+
+	// Method to fetch all users from the database
+	@Override
+	public List<User> fetchAllUsers() {
+		return userRepo.findAll(); // Retrieves all users from the database
+	}
+
+	// Method to delete a user by ID from the database
+	@Override
+	public String deleteUserById(int userId) {
+		userRepo.deleteById(userId); // Deletes the user by ID from the database
+		return "User details deleted Successfully for userID= " + userId;
+	}
+
+	// Method to update a user in the database
+	@Override
+	public User updateUser(User detachedUser, User existingUser) {
+		if (userRepo.existsById(existingUser.getId())) {
+			// Updates the existing user with details from the detached user
+			existingUser.setName(detachedUser.getName());
+			existingUser.setEmail(detachedUser.getEmail());
+			existingUser.setPassword(detachedUser.getPassword());
+			return userRepo.save(existingUser); // Saves the updated user to the database
+		}
+		// Throws exception if the user with the given ID does not exist
+		throw new UserHandlingException("Invalid user ID : Updation Failed !!!!!!!!!" + detachedUser.getId());
+	}
+
+	// Method to get a user by ID from the database
+	@Override
+	public User getUserById(int userId) {
+		return userRepo.findById(userId)
+				.orElseThrow(() -> new UserHandlingException("Invalid userId, coudn't find the user."));
+		// Retrieves the user by ID from the database or throws exception if not found
+	}
+
+	// Method to authenticate a user based on name and password
+	@Override
+	public User authenticate(User detachedUser) {
+		return userRepo.getUserDetailsByNameAndPassword(detachedUser.getName(), detachedUser.getPassword());
+		// Retrieves the user details from the database based on name and password
+	}
+
+	// Method from Spring Security to load user details by username
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Optional<User> user = userRepo.findByName(username); // Retrieves user by username from the database
+
+		// Creates a UserDetails object using UserInfoDetails for Spring Security
+		// authentication
+		return user.map(UserInfoDetails::new)
+				.orElseThrow(() -> new UserHandlingException("User not found: " + username));
+		// Throws exception if the user with the given username is not found
+	}
+
+	// Method to add a new user to the database (with password encryption)
+	public String addUser(User transientUser) {
+		transientUser.setPassword(passEncoder.encode(transientUser.getPassword()));
+		userRepo.save(transientUser); // Saves the user object to the database
+		return "New User added successfully";
+	}
+}

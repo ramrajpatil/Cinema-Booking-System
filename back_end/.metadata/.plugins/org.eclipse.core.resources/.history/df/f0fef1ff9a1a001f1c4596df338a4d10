@@ -1,0 +1,77 @@
+package com.user.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.user.custom.exception.UserHandlingException;
+import com.user.pojos.User;
+import com.user.repos.UserRepository;
+
+
+@Service
+@Transactional
+public class UserServiceImpl implements IUserService, UserDetailsService  {
+
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private PasswordEncoder passEncoder;
+
+	@Override
+	public User addNewUser(User user) {
+		return userRepo.save(user);
+	}
+
+	@Override
+	public List<User> fetchAllUsers() {
+		return userRepo.findAll();
+	}
+
+	@Override
+	public String deleteUserById(int userId) {
+		userRepo.deleteById(userId);
+		return "User details deleted Successfully for userID= " + userId;
+	}
+
+	@Override
+	public User updateUser(User detachedUser, User existingUser) {
+		if (userRepo.existsById(existingUser.getId())) {
+			
+			existingUser.setName(detachedUser.getName());
+			existingUser.setEmail(detachedUser.getEmail());
+			existingUser.setPassword(detachedUser.getPassword());
+			return userRepo.save(existingUser);
+		}
+		throw new UserHandlingException("Invalid user ID : Updation Failed !!!!!!!!!" + detachedUser.getId());
+	}
+
+	@Override
+	public User getUserById(int userId) {
+		return userRepo.findById(userId)
+				.orElseThrow(() -> new UserHandlingException("Invalid userId, coudn't find the user."));
+	}
+
+	@Override
+	public User authenticate(User detachedUser) {
+		
+		return userRepo.getUserDetailsByNameAndPassword(detachedUser.getName(), detachedUser.getPassword());
+	}
+
+	// From Spring Security
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		User user = userRepo.findByName(username).orElseThrow(()-> new UserHandlingException("No user exists by this name!!"));
+		
+		return null;
+	}
+
+}

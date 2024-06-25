@@ -1,0 +1,20 @@
+package demo;
+
+public class Program3 {
+
+	public static void main(String[] args) {
+		
+		// filter(Predicate)
+			// Predicate: Boolean valued function.
+			// i.e. true or false conditional function.
+			// reco: use lambda expression.
+			// e -> true(operation returning true)(e > 10) :: if element greater than 10.
+		
+		
+		
+		
+		
+		// map
+	}
+
+}

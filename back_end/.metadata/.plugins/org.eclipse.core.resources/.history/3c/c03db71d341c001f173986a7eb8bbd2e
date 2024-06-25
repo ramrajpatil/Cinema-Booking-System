@@ -1,0 +1,30 @@
+package demo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Program1 {
+
+	public static void main(String[] args) {
+		// Create a List and filter all even numbers from the list.
+		
+		
+		List<Integer> list1= new ArrayList<>();
+		list1.add(10);
+		list1.add(50);
+		list1.add(60);
+		list1.add(30);
+		list1.add(20);
+		list1.add(70);
+		List<Integer> list2= Arrays.asList(2,4,50,21,22,67);
+		
+		
+		// or
+		// List.of(); // This method will also create the list but it'll be an unmodifiable list.
+		
+		
+
+	}
+
+}

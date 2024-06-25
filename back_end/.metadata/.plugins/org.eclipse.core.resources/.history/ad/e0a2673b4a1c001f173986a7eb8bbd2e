@@ -1,0 +1,30 @@
+package demo;
+
+import java.util.List;
+
+public class Program3 {
+
+	public static void main(String[] args) {
+		
+		// filter(Predicate)
+			// Predicate: Boolean valued function.
+			// i.e. true or false conditional function.
+			// reco: use lambda expression.
+			// e -> true(operation returning true)(e > 10) :: if element greater than 10.
+		
+		
+		
+		
+		
+		// map
+		/*
+		 * On each element, we can perform a particular operation.
+		 * e.g: we want to square element and return that value at that element's place.
+		 */
+		// Each element operation
+		List<String> names =
+		List.of("Aman", "Ankit", "Abhinav", "Ramraj", "Sushant", "Kimaya", "Shreyas", "Vishal")
+		names.stream().filter(e -> e.startsWith("A")).forEach(e -> System.err.println(e));
+	}
+
+}

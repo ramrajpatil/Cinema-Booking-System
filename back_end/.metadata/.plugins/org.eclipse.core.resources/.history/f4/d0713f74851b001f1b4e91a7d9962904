@@ -1,0 +1,15 @@
+package com.cbs.repos;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.cbs.pojos.Movie;
+
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
+
+	// get all movies: findAll();
+	
+//	@Query("SELECT m FROM Movie m JOIN m.theaters t WHERE t.id = :theaterId")
+	List<Movie> findMoviesByTheatersId(int theaterId);
+}

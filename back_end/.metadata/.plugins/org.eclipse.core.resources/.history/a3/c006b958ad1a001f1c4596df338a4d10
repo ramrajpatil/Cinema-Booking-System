@@ -1,0 +1,76 @@
+package com.user.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.user.dto.LoginDTO;
+import com.user.pojos.User;
+import com.user.security.JWTService;
+import com.user.services.UserServiceImpl;
+
+@RestController
+@CrossOrigin("*")
+@RequestMapping("/auth")
+public class UserRestController {
+
+	@Autowired
+	private UserServiceImpl userService;
+
+	@Autowired
+	private AuthenticationManager authManeger;
+
+	@Autowired
+	private JWTService jwtService;
+
+	public UserRestController() {
+		System.out.println("In user rest controller.");
+	}
+
+	@GetMapping("/welcome")
+	public String welcome() {
+		return "Welcomme to Spring Security !!!";
+	}
+
+	@PostMapping("/addUser")
+	public String addUser(@RequestBody User transientUser) {
+
+		return userService.addUser(transientUser);
+	}
+
+	@PostMapping("/login")
+	public String addUser(@RequestBody LoginDTO loginDTO) {
+
+		Authentication authenticate = authManeger
+				.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+
+		if (authenticate.isAuthenticated()) {
+			return jwtService.generateToken(loginDTO.getUsername());
+		} else {
+			throw new UsernameNotFoundException("Invalid user request");
+		}
+
+	}
+
+	@GetMapping("/getUsers")
+	public List<User> getAllUsers() {
+		return userService.fetchAllUsers();
+	}
+
+	@GetMapping("/getUsers/{id}")
+	public User getUserDetails(@PathVariable int id) {
+		return userService.getUserById(id);
+	}
+
+}
